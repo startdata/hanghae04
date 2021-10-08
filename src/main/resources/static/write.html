@@ -3,14 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timeline Service</title>
+    <title>Blog</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <!--    font-family: 'Jua', sans-serif;-->
     <script>
+        $(document).ready(function () {
+            usercheck();
+        })
 
+        function usercheck() {
+            $.ajax({
+                type: "GET",
+                url: "/api/usercheck",
+                success: function (response) {
+                    let usercheck = response;
+                    if (usercheck == ""){
+                        alert('로그인이 필요합니다>_<')
+                        window.location.replace("/user/login")
+                    }
+                }
+            });
+        }
         function isValidContents(contents) {
             if (contents == '') {
                 alert('내용을 입력해주세요');
@@ -21,19 +37,15 @@
 
         function writePost() {
             let contents = $('#contents').val();
-            let name = $('#name').val();
             let title = $('#title').val();
             if (isValidContents(contents) == false) {
-                return;
-            }
-            if (isValidContents(name) == false) {
                 return;
             }
             if (isValidContents(title) == false) {
                 return;
             }
 
-            let data = {'title': title, 'name': name, 'contents': contents};
+            let data = {'title': title, 'contents': contents};
             $.ajax({
                 type: "POST",
                 url: "/api/contents",
@@ -44,16 +56,15 @@
                     location.href = 'index.html';
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
+                    alert('로그인을 해주세요');
+                    window.location.replace("/user/login");
                 }
             });
         }
-
-
     </script>
 
     <style>
+        /*@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);*/
         * {
             font-family: 'Jua', sans-serif !important;
         }
@@ -110,10 +121,11 @@
 
 
         .header {
-            margin-top: 170px;
+            margin-top: 0;
         }
 
         .header h2 {
+            /*font-family: 'Noto Sans KR', sans-serif;*/
             height: 33px;
             font-size: 42px;
             font-weight: 500;
@@ -165,10 +177,65 @@
             color: #868e96;
         }
 
+        .card .metadata {
+            position: relative;
+            display: flex;
+            font-family: 'Spoqa Han Sans';
+            font-size: 11px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: -0.77px;
+            text-align: left;
+            color: #adb5bd;
+            height: 14px;
+            padding: 10px 23px;
+        }
+
+        .card .metadata .date {
+
+        }
+
+        .card .metadata .name {
+            margin-left: 20px;
+        }
+
+        .contents div.edit {
+            display: none;
+        }
+
+        .contents textarea.te-edit {
+            border-right: none;
+            border-top: none;
+            border-left: none;
+            resize: none;
+            border-bottom: 1px solid #212529;
+            width: 100%;
+            font-family: 'Spoqa Han Sans';
+        }
+
         .form-control {
             height: 30px;
             margin-bottom: 10px;
-            margin-left: 70px;
+            margin-left: 35px;
+            border-radius: 10px;
+        }
+
+        #logout-text, #login-text, #signup-text {
+            text-decoration: none;
+            color: #FFA547;
+            display: block;
+            text-align: right;
+            font-size: 30px;
+        }
+        #home{
+            text-decoration: none;
+            color: #FFA547;
+            display: inline;
+            text-align: right;
+            font-size: 30px;
+            position: absolute;
         }
     </style>
 </head>
@@ -181,18 +248,21 @@
 </div>
 <div class="wrap">
     <div class="header">
-        <h2>항해99 바다 위 대나무숲<br><br>
-            맘껏 외치세요 무야호!</h2>
+        <a href="/" id = "home">Home</a>
+        <a sec:authorize="isAuthenticated()" id="logout-text" href="/user/logout">
+            로그아웃
+        </a>
+        <h2>Blog</h2>
     </div>
     <div class="area-write">
         <div class="form-floating mb-3">
             <input type="title" class="form-control" id="title" placeholder="제 목">
-            <input type="name" class="form-control" id="name" placeholder="닉네임">
         </div>
         <textarea class="field" placeholder="공유하고 싶은 소식을 입력해주세요" name="contents" id="contents" cols="30"
                   rows="10"></textarea>
         <img src="images/send.png" alt="" onclick="writePost()">
     </div>
 </div>
+
 </body>
 </html>

@@ -11,16 +11,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
-
 @EnableJpaAuditing
 @SpringBootApplication
 public class Hanghae04Application {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         SpringApplication.run(Hanghae04Application.class, args);
     }
 
-    //    # main 아래에 삽입
     @PostConstruct
     public void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
@@ -32,5 +30,4 @@ public class Hanghae04Application {
             repository.save(new Contents("항해99", "선원1", "어푸어푸"));
         };
     }
-
 }

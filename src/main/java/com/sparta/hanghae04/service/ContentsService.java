@@ -20,12 +20,12 @@ public class ContentsService {
         String contentsCheck = requestDto.getContents();
         String titleCheck = requestDto.getTitle();
         if (contentsCheck.contains("script")||contentsCheck.contains("<")||contentsCheck.contains(">")){
-            Contents contents = new Contents(requestDto,username,"xss 금지");
+            Contents contents = new Contents(requestDto,username,"xss 안돼요,,하지마세요ㅠㅠ");
             ContentsRepository.save(contents);
             return contents;
         }
         if (titleCheck.contains("script")||titleCheck.contains("<")||titleCheck.contains(">")) {
-            Contents contents = new Contents("xss 금지", username, "xss 금지");
+            Contents contents = new Contents("xss 안돼요,,하지마세요ㅠㅠ", username, "xss 안돼요,,하지마세요ㅠㅠ");
             ContentsRepository.save(contents);
             return contents;
         }

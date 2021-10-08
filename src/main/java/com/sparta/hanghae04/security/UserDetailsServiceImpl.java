@@ -1,5 +1,6 @@
 package com.sparta.hanghae04.security;
 
+
 import com.sparta.hanghae04.models.User;
 import com.sparta.hanghae04.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)

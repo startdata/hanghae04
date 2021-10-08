@@ -1,9 +1,7 @@
 package com.sparta.hanghae04.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sparta.hanghae04.dto.SignupRequestDto;
 import com.sparta.hanghae04.security.UserDetailsImpl;
-import com.sparta.hanghae04.service.KakaoUserService;
 import com.sparta.hanghae04.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -54,9 +52,9 @@ public class UserController {
 
     // 카카오 콜백
     @GetMapping("/user/kakao/callback")
-    public String kakaoLogin(String code) throws JsonProcessingException {
+    public String kakaoLogin(String code) {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        KakaoUserService.kakaoLogin(code);
+        userService.kakaoLogin(code);
         return "redirect:/";
     }
 

@@ -23,11 +23,11 @@ public class Hanghae04Application {
     public void started() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
-
+    //더미데이터
     @Bean
     public CommandLineRunner demo(ContentsRepository repository) {
         return (args) -> {
-            repository.save(new Contents("항해99", "선원1", "어푸어푸"));
+            repository.save(new Contents("제목", "이름", "아무거나"));
         };
     }
 }

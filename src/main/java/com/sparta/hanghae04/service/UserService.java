@@ -4,8 +4,8 @@ package com.sparta.hanghae04.service;
 import com.sparta.hanghae04.dto.SignupRequestDto;
 import com.sparta.hanghae04.models.User;
 import com.sparta.hanghae04.repository.UserRepository;
-import com.sparta.hanghae04.security.kakao.KakaoOAuth2;
-import com.sparta.hanghae04.security.kakao.KakaoUserInfo;
+import com.sparta.hanghae04.security.KakaoOAuth2;
+import com.sparta.hanghae04.security.KakaoUserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,12 +35,14 @@ public class UserService {
         // 회원 ID 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
 
+        // 정규식 표현
         String pattern = "^[a-zA-Z0-9]*$";
 
         if (found.isPresent()) {
             return "중복된 id 입니다.";
         }
 
+        // 이해필요
         if (username.length() < 3) {
             return "닉네임을 3자 이상 입력하세요";
         } else if (!Pattern.matches(pattern, username)) {
@@ -54,7 +56,7 @@ public class UserService {
         } else if (email.length() < 1) {
             return "이메일을 입력하세요";
         } else if (email.contains("<") || email.contains(">") || email.contains("script")) {
-            return "안돼요 하지마세요ㅠㅠ";
+            return "!!"; //
         }
         // 패스워드 인코딩
         password = passwordEncoder.encode(password);
@@ -65,6 +67,7 @@ public class UserService {
         return error;
     }
 
+    //OAuth2 에대한이해필요
     public void kakaoLogin(String authorizedCode) {
         // 카카오 OAuth2 를 통해 카카오 사용자 정보 조회
         KakaoUserInfo userInfo = kakaoOAuth2.getUserInfo(authorizedCode);

@@ -1,4 +1,4 @@
-package com.sparta.hanghae04.security.kakao;
+package com.sparta.hanghae04.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
